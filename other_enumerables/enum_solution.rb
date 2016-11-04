@@ -22,7 +22,13 @@
     
     # Method
     def another_reject
-      #use another_each
+      array = []
+      self.another_each do |i|
+        unless yield i
+          array << i
+        end
+      end
+      array
     end
 
     # another_find
@@ -33,7 +39,14 @@
     
     # Method
     def another_find
-      #use another_each
+      answer = nil
+      self.another_each do |i|
+        if yield i
+          answer = i
+          return answer
+        end
+      end
+      answer
     end
 
     # another_map
@@ -44,15 +57,22 @@
     
     # Method
     def another_map
-      #use another_each
+      array = []
+      self.another_each do |i|
+        array << (yield i)
+      end
+      array
     end
 
   end
 
   # Exercise 2 Driver Code
 
+    
+
     # another_reject test
     reject_example_array = [1, 2, 3, 4, 5]
+
 
     if reject_example_array.another_reject { |num| num.even? } == [1, 3, 5]
       puts "#another_reject - Pass"
@@ -73,7 +93,7 @@
 
     # another_map test
     map_example_test_1 = [1,2,3,4].another_map { |x| x * x } == [1, 4, 9, 16]
-    map_example_test_2 = [1,2,3,4].another_map { |num| num + " cat" } == ["1 cat", "2 cat", "3 cat", "4 cat"]
+    map_example_test_2 = [1,2,3,4].another_map { |num| num.to_s + " cat" } == ["1 cat", "2 cat", "3 cat", "4 cat"]
 
     if map_example_test_1 && map_example_test_2
       puts "#another_map - Pass"
